@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianfeng.recycle.mapper.StateMapper">
+    <resultMap id="baseResult" type="com.qianfeng.recycle.vo.state.StateVO">
+        <id property="stateId" column="state_id" javaType="java.lang.Integer"/>
+        <result property="page" column="page" javaType="java.lang.Integer"/>
+        <result property="stateName" column="state_name" javaType="java.lang.String"/>
+        <collection property="stateInfoVOList" ofType="com.qianfeng.recycle.vo.state.StateInfoVO">
+            <id column="state_info_id" property="stateInfoId" javaType="java.lang.Integer"/>
+            <result column="described" property="described" javaType="java.lang.String"/>
+            <result column="described_info" property="describedInfo" javaType="java.lang.String"/>
+        </collection>
+    </resultMap>
+    <select id="queryAllstate" resultMap="baseResult">
+       SELECT s.state_id,si.state_info_id,s.state_name,si.described,si.described_info,s.page
+       from tb_state s
+       INNER JOIN tb_state_info si on s.state_id= si.state_id
+       INNER JOIN tb_break b on si.state_info_id = b.state_info_id
+       and b.equ_id=#{equId};
+    </select>
+</mapper>

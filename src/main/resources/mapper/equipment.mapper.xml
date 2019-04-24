@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianfeng.recycle.mapper.EquMapper">
+    <resultMap id="baseResult" type="com.qianfeng.recycle.po.TbEquipment">
+        <id property="equId" column="equ_id" javaType="java.lang.Integer"/>
+        <result property="cartId" column="cart_id" javaType="java.lang.Integer"/>
+        <result property="priceId" column="price_id" javaType="java.lang.Integer"/>
+        <result property="brandId" column="brand_id" javaType="java.lang.Integer"/>
+        <result property="versionInfo" column="version_info" javaType="java.lang.String"/>
+    </resultMap>
+
+    <sql id="params">
+        equ_id,cart_id,price_id,brand_id,type,color,img,version,memory,version_info
+    </sql>
+    <select id="queryEquByBrandId" resultMap="baseResult">
+        select <include refid="params"/> from tb_equipment where brand_id = #{brandId}
+    </select>
+    <select id="queryAllEqu" resultMap="baseResult">
+        select <include refid="params"/> from tb_equipment
+    </select>
+
+
+</mapper>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianfeng.recycle.mapper.InfoMapper">
+    <resultMap id="infoResultMap" type="com.qianfeng.recycle.vo.InfoVO">
+        <result property="brandName" column="brand_name" javaType="java.lang.String"/>
+    </resultMap>
+    <select id="queryEquInfo" resultMap="infoResultMap">
+        SELECT b.brand_name,e.type,e.img,p.price from tb_equipment e INNER JOIN tb_brand b
+        on e.brand_id = b.brand_id INNER JOIN tb_price p
+        on p.price_id =e.price_id where e.equ_id=#{equId};
+    </select>
+</mapper>
