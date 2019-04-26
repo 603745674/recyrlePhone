@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianfeng.recycle.mapper.UserMapper">
+    <resultMap id="baseMapper" type="com.qianfeng.recycle.po.TbUser">
+        <id property="userId" column="user_id" javaType="java.lang.String"/>
+        <result property="walletId" column="wallet_id" javaType="java.lang.Integer"/>
+        <result property="userName" column="user_name" javaType="java.lang.String"/>
+        <result property="paymentCode" column="payment_code" javaType="java.lang.String"/>
+    </resultMap>
+    <select id="checkUserName" resultMap="baseMapper">
+        select user_name,password from tb_user where user_name=#{userName};
+    </select>
+    <insert id="insertUser">
+        insert into tb_user (user_name,password) values(#{userName},#{password});
+    </insert>
+</mapper>

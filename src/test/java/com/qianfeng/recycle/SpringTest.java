@@ -1,10 +1,13 @@
 package com.qianfeng.recycle;
 
 
+import com.qianfeng.recycle.commons.MD5Utils;
 import com.qianfeng.recycle.mapper.*;
 import com.qianfeng.recycle.po.TbBrand;
 import com.qianfeng.recycle.po.TbEquipment;
+import com.qianfeng.recycle.po.TbUser;
 import com.qianfeng.recycle.vo.InfoVO;
+import com.qianfeng.recycle.vo.state.ImgPriceVO;
 import com.qianfeng.recycle.vo.state.StateVO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,6 +28,10 @@ public class SpringTest {
     private InfoMapper infoMapper;
     @Autowired
     private StateMapper stateMapper;
+    @Autowired
+    private ImgPriceMapper imgPriceMapper;
+    @Autowired
+    private UserMapper UserMapper;
     @Test
     public void testCase1(){
         List<TbBrand> allBrand = brandMapper.selectAllBrand();
@@ -55,5 +62,35 @@ public class SpringTest {
     public void testCase4(){
         List<StateVO> stateVOS = stateMapper.queryAllstate(1);
         System.out.println(stateVOS);
+        System.out.println(stateVOS.size());
+    }
+    @Test
+    public void testCase5(){
+        String s="14,18,2,0,7,0,9,0,5";
+        String [] a = s.split(",");
+       for(String b:a){
+           System.out.println(b);
+       }
+    }
+
+    @Test
+    public void testCase6(){
+        ImgPriceVO imgPriceVO = imgPriceMapper.queryEquByEquId(1,14);
+        System.out.println(imgPriceVO);
+    }
+    @Test
+    public void testCase7(){
+        TbUser tbUser = UserMapper.checkUserName("罗罗");
+        System.out.println(tbUser);
+    }
+    @Test
+    public void testCase8(){
+        String ll = MD5Utils.md5("123456", "LL");
+        System.out.println(ll);
+    }
+    @Test
+    public void testCase9(){
+
+        UserMapper.insertUser("罗罗","100");
     }
 }

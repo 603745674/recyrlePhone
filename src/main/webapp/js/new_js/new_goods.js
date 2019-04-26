@@ -10,12 +10,12 @@ function	pj_click(obj,pj_id){
 		$(obj).attr('class','selected');
 		$("#pj_id_"+pj_id).val(pj_id);
 	}
-	var pj_ids	=	'',suffix='';
+	/*var pj_ids	=	'',suffix='';
 	$("input[name='pj_id[]']").each(function(){
 			pj_ids	+=	suffix+$(this).val();
 			suffix	=	',';
 	})
-	$("#pj_ids").val(pj_ids);
+	$("#pj_ids").val(pj_ids);*/
 }
 
 //属性点击事件
@@ -28,16 +28,25 @@ function	property_click(obj,suffix,property_id){
 	auto_go_next(obj);
 }
 //描叙点击事件
-function	item_click(obj,suffix){
+function	item_click(obj,a){
     var name			=	$(obj).attr('name');
     var current_class	=	$(obj).attr('class');
     if(current_class	==	'selected'){
         $(obj).attr('class','');
-        $("#desc_id_"+suffix).val(0);
+        $("#desc_pid_"+a).val(0);
     }else {
         $(obj).attr('class','selected');
-        $("#desc_id_"+suffix).val(suffix);
+        $("#desc_pid_"+a).val(a);
 	}
+  /*  var desc_pids	=	'',suffix='';
+    $("input[name='desc_pid[]']").each(function(){
+        desc_pids	+=	suffix+$(this).val();
+        suffix	=	',';
+    })
+	//alert(a);
+  alert(desc_pids);*/
+
+
 /*	var default_id	=	arguments[3] ? arguments[3] : desc_id;
 	if(default_id	!=	desc_id){		//可多选时
 		var name			=	$(obj).attr('name');
@@ -96,6 +105,20 @@ function btn_step2_next_html(){
 
 //查看价格
 function new_show_price(url,act,func,elem_id,ifhuanxin){
+    var pj_ids	=	'';var suffix1='';
+    $("input[name='pj_id[]']").each(function(){
+
+        pj_ids	+=	suffix1+$(this).val();
+        suffix1	=	',';
+    })
+    $("#pj_ids").val(pj_ids);
+    var desc_pids	=	'';var suffix2='';
+    $("input[name='desc_pid[]']").each(function(){
+
+        desc_pids	+=	suffix2+$(this).val();
+        suffix2	=	',';
+    })
+
 	var property_ids	=	'',psuffix	=	'';
 	var desc_ids		=	'',dsuffix	=	'';
 	var property_flag	=	true;
@@ -107,28 +130,45 @@ function new_show_price(url,act,func,elem_id,ifhuanxin){
 		property_ids	+=	psuffix+$(this).val();
 		psuffix			=	',';
 	})
-	if( ! property_flag){
+	// alert(property_ids);
+    // alert(desc_pids);
+    // alert(pj_ids);
+    var statesInfo = property_ids+','+desc_pids+','+pj_ids;
+
+    function GetQueryString(name)
+    {
+        var reg = new RegExp("(^|&amp;)"+ name +"=([^&amp;]*)(&amp;|$)");
+        var r = window.location.search.substr(1).match(reg);//search,查询？后面的参数，并匹配正则
+        if(r!=null)return unescape(r[2]); return null;
+    }
+    var a = GetQueryString("A");
+
+	axios.get("http://localhost:8080/count/"+statesInfo+"/"+a).then(function (data) {
+		window.location.href="http://localhost:8080/html/price.html";
+    });
+/*	if( ! property_flag){
 		alert("请选择评估参数");
 		return false;
-	}
+	}*/
 	var desc_flag	=	true;
 	$("input[name='desc_id[]']").each(function(){
-		if($(this).val()==0){
+	/*	if($(this).val()==0){
 			desc_flag	=	false;
 			return false;
-		}
+		}*/
 		desc_ids	+=	dsuffix+$(this).val();
 		dsuffix		=	',';
 	})
-	if( ! desc_flag){
+
+/*	if( ! desc_flag){
 		alert("请选择评估参数");
 		return false;
-	}
+	}*/
 
-	if(desc_ids.length	==	0){
+/*	if(desc_ids.length	==	0){
 		alert("无评估参数");
 		return false;
-	}
+	}*/
 	func			=	typeof(func)=='undefined'?'add':func;
 	var gid			=	$("#gid").val();
 	var package_id	=	$("#package_id").val();
@@ -262,7 +302,6 @@ function new_addcart(url,act,key){
 				html	+=	' </tr>';
 				//alert(html);
 				$("#cart_tr_title").after(html);
-
 				alert("已加入回购车");
 			}else if(obj[0]	==	2){
 				alert("数据传输有误");

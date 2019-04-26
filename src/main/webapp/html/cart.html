@@ -30,6 +30,10 @@
 
     <script src="../js/new_js/index.js" type="text/javascript"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.3.1.js"></script>
+
 </head>
 <body>
 <link rel="stylesheet" type="text/css" href="../css/alert_zhe.css" />
@@ -469,7 +473,7 @@
 
     </div>
     <!--订单-->
-    <div class="dingdan">
+    <div id="dingdan" class="dingdan">
         <div class="contact_way">订单详情：</div>
         <table width="100%" border="0" cellpadding="0" cellspacing="1"  class="table1">
             <tbody>
@@ -479,41 +483,26 @@
                 <th width="64%">评估描述情况</th>
             </tr>
             <tr>
+                <template v-for="(info,index) in stateInfo">
+                <template v-if="index==(stateInfo.length-1)">
                 <td height="95" align="center">
-                    <div class="contact_way_img"><img src="http://img.ihuigo.com/goods_a/739b3910f020832305a94a6a96eec952.jpg"></div>
-                    <div class="contact_way_txt"><p><span>iphone 7</span></p></div>
+                    <div class="contact_way_img"><img :src="'http://192.168.53.20/images/'+info.img"  width="112" height="84"></div>
+                    <div class="contact_way_txt"><p style="margin-top: 25px"><span>{{info.type}}</span></p></div>
                     <div class="clear"></div>
                 </td>
                 <td align="center" style="line-height:22px;">
-                    <h3>￥2800.00</h3>
+                    <h3>￥{{info.breakPrice}}</h3>
                 </td>
+                </template>
+                </template>
                 </td>
                 <td style="padding-left:28px; line-height: 18px;text-align: left;">
-		  								<span>
-									<a>大陆行货</a>
-									|<a>保修一个月以上</a>
-								</span>
-                    <br />
+                    <template v-for="info in stateInfo">
 
                     <span>
-									<a>红色</a>
-									 |&nbsp;&nbsp;<a>完好无破损</a>
-									 |&nbsp;&nbsp;<a>显示完好</a>
-									 |&nbsp;&nbsp;<a>通话功能正常</a>
-									 |&nbsp;&nbsp;<a>iCloud账号可以解除</a>
-									 |&nbsp;&nbsp;<a>全新机</a>
-									 |&nbsp;&nbsp;<a>开机正常</a>
-									 |&nbsp;&nbsp;<a>机身无进水受潮</a>
-									 |&nbsp;&nbsp;<a>按键接口及卡槽正常</a>
-									 |&nbsp;&nbsp;<a>无拆修</a>
-									 |&nbsp;&nbsp;<a>指纹功能正常</a>
-									 |&nbsp;&nbsp;<a>蓝牙/wifi功能正常</a>
-									 |&nbsp;&nbsp;<a>照相及感光功能正常</a>
-									 |&nbsp;&nbsp;<a>有换机</a>
-									 |&nbsp;&nbsp;<a>32G</a>
-									 |&nbsp;&nbsp;<a>机身无变形</a>
+									<a>{{info.described}}</a>&nbsp;&nbsp;
 								</span>
-
+                    </template>
                 </td>
             </tr>
             </tbody>
@@ -544,9 +533,31 @@
         if(s_id	==	1)	$("#ifalipay").val('n');
         else if(s_id	==	2)	$("#ifalipay").val('y');
         else if(s_id	==	3)	$("#ifalipay").val('s');
-
     }
     aa(2);
+</script>
+
+<script type="text/javascript">
+    var baseUrl="http://localhost:8080";
+
+    new Vue({
+        el:"#dingdan",
+        data:{
+            stateInfo:null
+        },
+        methods:{
+            addOrder:function(){
+                window.location.href="http://localhost:8080/html/order.html";
+            },
+            addCart:function(){
+                window.location.href="http://localhost:8080/html/cart.html";
+            }
+        },
+        mounted(){
+            axios.get(baseUrl+"/count/list")
+                .then(response => {this.stateInfo = response.data})
+        }
+    });
 </script>
 </body>
 </html>

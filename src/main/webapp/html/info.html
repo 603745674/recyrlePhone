@@ -93,7 +93,7 @@
 <!--评估流程-->
 <div id="ahs_trade_body">
     <input type="hidden" id="view" value="goods_info"/>
-    <input type="hidden" id="if_show_price" value="1"/>
+    <input type="hidden" id="if_show_price" value="0"/>
     <input type="hidden" id="gid" name="gid" value="21025"/>
     <input type="hidden" id="package_id" name="package_id" value="571"/>
     <div id="ahs_property_head">
@@ -112,8 +112,8 @@
         <!--第一步-->
         <div id="property_step1">
             <dl >
-                <dd v-for="infos3 in stateInfo" >
-                    <template v-if="infos3.page==1">
+                <dd v-for="infos3 in stateInfo">
+                    <template v-if="infos3.page==3">
                     <input type="hidden" name="property[]" v-bind:id="'property_'+infos3.stateId" value="0" />
                     <div class="property_title"><h3>{{infos3.stateName}}</h3></div>
                     <ul>
@@ -136,18 +136,19 @@
         <div id="property_step2" class="hide">
             <dl>
                 <dd v-for="infos2 in stateInfo">
+                    <template v-if="infos2.page==2">
                     <div class="property_title">
                         <h3>{{infos2.stateName}}</h3>
                     </div>
                     <ul>
-                        <input type="hidden" name="desc_pid[]" value="944"/>
-                        <input type="hidden" name="desc_id[]" id="desc_id_944" value="945"/>
-                        <li v-for="info2 in infos2.stateInfoVOList" onClick="item_click(this,'944','946','945')" name="mx_child_944">
+                        <li v-for="info2 in infos2.stateInfoVOList" :onClick="'item_click(this,'+info2.stateInfoId+')'" :name="'desc_pid_'+infos2.stateId">
+                            <input type="hidden" name="desc_pid[]" :id="'desc_pid_'+info2.stateInfoId" value="0"/>
                             <div class="pro_div"><span class="property_value"><i>{{info2.described}}</i><ins>{{info2.describedInfo}}</ins></span>
                                 <span class="gou"></span></div>
                         </li>
                         <div class="clear"></div>
                     </ul>
+                    </template>
                 </dd>
             </dl>
             <div id="step2_nav" class="property_nav">
@@ -160,26 +161,32 @@
         <div id="property_step3" class="hide">
             <dl>
                 <template v-for="infos1 in stateInfo">
+                    <template v-if="infos1.page==1">
                 <dd  id="pingu_mx_659">
-                    <input type="hidden" name="desc_pid[]" value="659"/>
-                    <input type="hidden" name="desc_id[]" :id="'desc_id_'+infos1.stateId" value="0"/>
                     <div class="property_title"><h3>{{infos1.stateName}}</h3></div>
                     <ul>
-                        <template v-for="info1 in infos1.stateInfoVOList">
-                            <li  :onClick="'item_click(this,'+infos1.stateId+','+info1.stateInfoId+')'" :name="'mx_child_'+infos1.stateId">
+                            <template v-for="info1 in infos1.stateInfoVOList" v-if="infos1.stateId!=2">
+                                <input type="hidden" name="property[]" :id="'property_'+infos1.stateId" value="0"/>
+                            <li  :onClick="'property_click(this,'+infos1.stateId+','+info1.stateInfoId+')'" :name="'mx_child_'+infos1.stateId">
                                 <div class="pro_div"><span class="property_value"><i>{{info1.described}}</i><ins>{{info1.describedInfo}}</ins></span><span
                                         class="gou"></span></div>
                             </li>
-
+                            </template>
+                            <template v-for="info1 in infos1.stateInfoVOList" v-if="infos1.stateId==2" >
+                                <input type="hidden" name="pj_id[]" :id="'pj_id_'+info1.stateInfoId" value="0"/>
+                            <li  :onClick="'pj_click(this,'+info1.stateInfoId+')'" :name="'pj_id_'+infos1.stateId">
+                                <div class="pro_div"><span class="property_value"><i>{{info1.described}}</i><ins>{{info1.describedInfo}}</ins></span><span
+                                        class="gou"></span></div>
+                            </li>
                         </template>
                         <div class="clear"></div>
-
                     </ul>
                 </dd>
+                    </template>
                 </template>
             </dl>
             <div id="step3_nav" class="property_nav">
-                <div id="btn_step3_back" class="btn_back">< s返回上一步</div>
+                <div id="btn_step3_back" class="btn_back">< 返回上一步</div>
                 <div id="btn_step3_next" class="btn_next"
                      onclick="new_show_price('ajax/new_get_pg_price.html','show_price')">查看价格 >
                 </div>
@@ -199,7 +206,6 @@
         $("#step2_nav .btn_next").bind('click', step2_next);
         $("#step2_nav .btn_back").bind('click', step2_back);
         $("#step3_nav .btn_back").bind('click', step3_back);
-
         $("input[name='property[]']").each(function () {
             $(this).val(0);
         })

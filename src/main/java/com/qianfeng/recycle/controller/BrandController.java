@@ -20,6 +20,4 @@ public class BrandController {
         List<TbBrand> allBrand = brandService.selectAllBrand();
         return allBrand;
     }
-
-
 }
