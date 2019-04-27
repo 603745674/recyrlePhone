@@ -4,7 +4,7 @@ public class InfoVO {
     private String brandName;
     private String type;
     private String img;
-    private long price;
+    private Integer price;
 
     public String getBrandName() {
         return brandName;
@@ -30,11 +30,11 @@ public class InfoVO {
         this.img = img;
     }
 
-    public long getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(long price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 

@@ -10,6 +10,15 @@ public class ImgPriceVO {
     private Integer breakPrice;
     private String described;
     private String type;
+    private Integer countPrice;
+
+    public Integer getCountPrice() {
+        return countPrice;
+    }
+
+    public void setCountPrice(Integer countPrice) {
+        this.countPrice = countPrice;
+    }
 
     public String getImg() {
         return img;
@@ -95,6 +104,7 @@ public class ImgPriceVO {
                 ", breakPrice=" + breakPrice +
                 ", described='" + described + '\'' +
                 ", type='" + type + '\'' +
+                ", countPrice=" + countPrice +
                 '}';
     }
 }

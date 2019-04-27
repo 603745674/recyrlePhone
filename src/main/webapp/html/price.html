@@ -37,7 +37,7 @@ function selectcity(url){
 <div id="header" class="recovery">
   <div class="page2">
     <div class="heat_l" style="width:276px;">
-      <div class="heat_img"><img :src="'http://192.168.53.20/images/'+stateInfo.img"  width="264" height="197" /></div>
+      <div class="heat_img"><img :src="'http://localhost8080/images/'+stateInfo.img"  width="264" height="197" /></div>
     </div>
     <div class="heat_new">
     	<input type="hidden" name="typeid" id="typeid" value="1" />
@@ -195,14 +195,24 @@ function selectcity(url){
 </div>
 
 <!--购物车-->
-<div class="mui-mbar">
+<div >
+<div id="cart" class="mui-mbar">
   <!--黑色栏-->
-  <div class="mui-mbar-mask">
+  <div  class="mui-mbar-mask">
     <div class="mui-mbar-gwc">
-      <div class="mui-mbar-wz"><em class="cart_total_items">0</em>
+
+      <div class="mui-mbar-wz">
+        <template v-for="(info,index) in stateInfos">
+          <template v-if="index==(stateInfos.length-1)">
+        <em class="cart_total_items">
+        {{stateInfos.length}}
+        </em>
+          </template>
+        </template>
         <p><img src="../images/cart.png"></p>
         <span>回购车</span>
       </div>
+
     </div>
     <!--在线客服-->
     <div class="mui-mbar-kefu mui-mbar-all">
@@ -239,23 +249,37 @@ function selectcity(url){
           <th width="100">&nbsp;</th>
           <th width="68">评估价</th>
         </tr>
+        <template v-for="info in stateInfos">
+        <tr>
+            <th class="table-padding">{{info.type}}</th>
+            <th width="100">&nbsp;</th>
+            <th width="68">{{info.breakPrice}}</th>
+        </tr>
+        </template>
         </tbody></table>
     </div>
     <!--结算-->
     <div class="mui-jiesuan">
-      <p>已选<em class="cart_total_items">0</em>台共计<em id="cart_total">￥0</em></p>
-      <input type="button" value="去结算" class="mui-button" onclick="gocart(&#39;/ajax/check_iflogin.html&#39;,&#39;/order/cart.html&#39;)">
+      <template v-for="(info,index) in stateInfos">
+        <template v-if="index==(stateInfos.length-1)" >
+      <p>已选<em class="cart_total_items">{{stateInfos.length}}</em>台共计<em id="cart_total">￥{{info.countPrice}}</em></p>
+
+        </template>
+      </template>
+      <input type="button" value="去结算" class="mui-button" @click="pay()"/>
     </div>
     <!--结算-->
   </div>
   <!--购物车-->
 </div>
+
+
 <script type="text/javascript">
  function showmark(){
    $("#pai_mark").css("width",$(document).width())	 
    $("#pai_mark").css("height",$(document).height())
    $(".pai_box").show(); 	
-   $("#pai_mark").show(); 
+   $("#pai_mark").show();
   }
   
   function show_box(){
@@ -263,7 +287,7 @@ function selectcity(url){
       $("#pai_mark").css("width",$(document).width())	 
       $("#pai_mark").css("height",$(document).height())	
       $("#pai_mark").show();       
-      $(".pai_give").show();    
+      $(".pai_give").show();
   }
   
   $(function(){
@@ -319,26 +343,43 @@ $(function(){
 </script>
 <script type="text/javascript">
     var baseUrl="http://localhost:8080";
-    var equId=null;
-    var stateInfoId=null;
     new Vue({
         el:"#header",
         data:{
             stateInfo:null
+
         },
         methods:{
             addOrder:function(){
                         window.location.href="http://localhost:8080/html/order.html";
             },
             addCart:function(){
-                window.location.href="http://localhost:8080/html/cart.html";
+                axios.get(baseUrl+"/count/cart")
+                    .then(response => {this.stateInf = response.data})
+                window.location.href="http://localhost:8080/html/price.html";
             }
         },
         mounted(){
             axios.get(baseUrl+"/count")
                 .then(response => {this.stateInfo = response.data})
+
+        }
+    });
+    new Vue({
+        el:"#cart",
+        data:{
+            stateInfos:null
+        },
+        methods:{
+            pay:function(){
+                window.location.href="http://localhost:8080/html/cart.html";
+            }
+        },
+        mounted(){
+            axios.get(baseUrl+"/count/cartList")
+                .then(response => {this.stateInfos = response.data})
         }
     });
 </script>
-</body>
+</div></body>
 </html>

@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -92,5 +93,21 @@ public class SpringTest {
     public void testCase9(){
 
         UserMapper.insertUser("罗罗","100");
+    }
+
+    @Test
+    public void testCase10(){
+        String s =" ,0";
+        String[] a =s.split(",");
+        for (String b:a) {
+            System.out.println(" ".equals(b));
+            System.out.println(b);
+        }
+        System.out.println("长度:"+a.length);
+    }
+    @Test
+    public void testCase11(){
+       List<String> v = new ArrayList<>();
+        System.out.println("长度:"+v.size());
     }
 }

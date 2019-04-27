@@ -473,8 +473,11 @@
 
     </div>
     <!--订单-->
-    <div id="dingdan" class="dingdan">
+    <div id="dingdan" class="dingdan" >
         <div class="contact_way">订单详情：</div>
+
+
+        <template v-for="(info,index) in stateInfo">
         <table width="100%" border="0" cellpadding="0" cellspacing="1"  class="table1">
             <tbody>
             <tr>
@@ -483,32 +486,38 @@
                 <th width="64%">评估描述情况</th>
             </tr>
             <tr>
-                <template v-for="(info,index) in stateInfo">
-                <template v-if="index==(stateInfo.length-1)">
+
+
                 <td height="95" align="center">
-                    <div class="contact_way_img"><img :src="'http://192.168.53.20/images/'+info.img"  width="112" height="84"></div>
+                    <div class="contact_way_img"><img :src="'http://localhost8080/images/'+info.img"  width="112" height="84"></div>
                     <div class="contact_way_txt"><p style="margin-top: 25px"><span>{{info.type}}</span></p></div>
                     <div class="clear"></div>
                 </td>
                 <td align="center" style="line-height:22px;">
                     <h3>￥{{info.breakPrice}}</h3>
                 </td>
-                </template>
-                </template>
+
+
                 </td>
                 <td style="padding-left:28px; line-height: 18px;text-align: left;">
-                    <template v-for="info in stateInfo">
-
                     <span>
 									<a>{{info.described}}</a>&nbsp;&nbsp;
 								</span>
-                    </template>
                 </td>
+
             </tr>
             </tbody>
         </table>
-        <div class="foot_bor"> <em>1</em>件产品总计回收价格<em style="font-size:18px;">￥2800</em> <!--<span>赠送环保券 <i>30</i>元--></span></div>
+            <template v-if="index==(stateInfo.length-1)">
+        <div class="foot_bor"> <em>{{stateInfo.length}}</em>件产品总计回收价格<em style="font-size:18px;">￥
+
+                {{info.countPrice}}
+
+        </em> <!--<span>赠送环保券 <i>30</i>元--></span></div>
+            </template>
+        </template>
     </div>
+
     <!--订单-->
     </div>
     <!--提交订单-->
@@ -539,22 +548,13 @@
 
 <script type="text/javascript">
     var baseUrl="http://localhost:8080";
-
     new Vue({
         el:"#dingdan",
         data:{
             stateInfo:null
         },
-        methods:{
-            addOrder:function(){
-                window.location.href="http://localhost:8080/html/order.html";
-            },
-            addCart:function(){
-                window.location.href="http://localhost:8080/html/cart.html";
-            }
-        },
         mounted(){
-            axios.get(baseUrl+"/count/list")
+            axios.get(baseUrl+"/count/cartList")
                 .then(response => {this.stateInfo = response.data})
         }
     });
