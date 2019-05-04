@@ -104,7 +104,50 @@ function btn_step2_next_html(){
 }
 
 //查看价格
-function new_show_price(url,act,func,elem_id,ifhuanxin){
+function new_price(){
+    var pj_ids	=	'';var suffix1='';
+    $("input[name='pj_id[]']").each(function(){
+
+        pj_ids	+=	suffix1+$(this).val();
+        suffix1	=	',';
+    })
+    $("#pj_ids").val(pj_ids);
+    var desc_pids	=	'';var suffix2='';
+    $("input[name='desc_pid[]']").each(function(){
+
+        desc_pids	+=	suffix2+$(this).val();
+        suffix2	=	',';
+    })
+
+    var property_ids	=	'',psuffix	=	'';
+    var desc_ids		=	'',dsuffix	=	'';
+    var property_flag	=	true;
+    $("input[name='property[]']").each(function(){
+        if($(this).val()==0){
+            property_flag	=	false;
+            return;
+        }
+        property_ids	+=	psuffix+$(this).val();
+        psuffix			=	',';
+    })
+    // alert(property_ids);
+    // alert(desc_pids);
+    // alert(pj_ids);
+    var statesInfo = property_ids+','+desc_pids+','+pj_ids;
+
+    function GetQueryString(name)
+    {
+        var reg = new RegExp("(^|&amp;)"+ name +"=([^&amp;]*)(&amp;|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return unescape(r[2]); return null;
+    }
+    var a = GetQueryString("A");
+
+    axios.get("http://localhost:8080/recycle/count/"+statesInfo+"/"+a).then(function (data) {
+        window.location.href="http://localhost:8080/recycle/html/price.html";
+    });
+}
+function new_show_price(){
     var pj_ids	=	'';var suffix1='';
     $("input[name='pj_id[]']").each(function(){
 
@@ -138,13 +181,13 @@ function new_show_price(url,act,func,elem_id,ifhuanxin){
     function GetQueryString(name)
     {
         var reg = new RegExp("(^|&amp;)"+ name +"=([^&amp;]*)(&amp;|$)");
-        var r = window.location.search.substr(1).match(reg);//search,查询？后面的参数，并匹配正则
+        var r = window.location.search.substr(1).match(reg);
         if(r!=null)return unescape(r[2]); return null;
     }
     var a = GetQueryString("A");
 
-	axios.get("http://localhost:8080/count/"+statesInfo+"/"+a).then(function (data) {
-		window.location.href="http://localhost:8080/html/price.html";
+	axios.get("http://localhost:8080/recycle/count/"+statesInfo+"/"+a).then(function (data) {
+		window.location.href="http://localhost:8080/recycle/html/price.html";
     });
 /*	if( ! property_flag){
 		alert("请选择评估参数");

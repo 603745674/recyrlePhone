@@ -37,7 +37,7 @@ function selectcity(url){
 <div id="header" class="recovery">
   <div class="page2">
     <div class="heat_l" style="width:276px;">
-      <div class="heat_img"><img :src="'http://localhost8080/images/'+stateInfo.img"  width="264" height="197" /></div>
+      <div class="heat_img"><img :src="'http://192.168.53.20/images/'+stateInfo.img"  width="264" height="197" /></div>
     </div>
     <div class="heat_new">
     	<input type="hidden" name="typeid" id="typeid" value="1" />
@@ -248,12 +248,16 @@ function selectcity(url){
           <th class="table-padding">机型</th>
           <th width="100">&nbsp;</th>
           <th width="68">评估价</th>
+            <th width="68">操作</th>
         </tr>
-        <template v-for="info in stateInfos">
+        <template v-for="(info,index) in stateInfos">
         <tr>
             <th class="table-padding">{{info.type}}</th>
             <th width="100">&nbsp;</th>
             <th width="68">{{info.breakPrice}}</th>
+            <th width="68"><input type="button" value="删除" @click="delete1(index)" />
+                <input id="delete" type="hidden" :value="index">
+            </th>
         </tr>
         </template>
         </tbody></table>
@@ -266,7 +270,7 @@ function selectcity(url){
 
         </template>
       </template>
-      <input type="button" value="去结算" class="mui-button" @click="pay()"/>
+      <input type="button" value="去结算" class="mui-button" onclick="login()"/>
     </div>
     <!--结算-->
   </div>
@@ -342,7 +346,7 @@ $(function(){
 });
 </script>
 <script type="text/javascript">
-    var baseUrl="http://localhost:8080";
+    var baseUrl="http://localhost:8080/recycle";
     new Vue({
         el:"#header",
         data:{
@@ -351,12 +355,12 @@ $(function(){
         },
         methods:{
             addOrder:function(){
-                        window.location.href="http://localhost:8080/html/order.html";
+                        window.location.href=baseUrl+"/html/order.html";
             },
             addCart:function(){
                 axios.get(baseUrl+"/count/cart")
                     .then(response => {this.stateInf = response.data})
-                window.location.href="http://localhost:8080/html/price.html";
+                window.location.href=baseUrl+"/html/price.html";
             }
         },
         mounted(){
@@ -368,11 +372,24 @@ $(function(){
     new Vue({
         el:"#cart",
         data:{
-            stateInfos:null
+            stateInfos:null,
+            msg:null
         },
         methods:{
-            pay:function(){
-                window.location.href="http://localhost:8080/html/cart.html";
+            /*pay:function(){
+                axios.get(baseUrl+"/count/pay")
+                    .then(response => {this.msg = response.data})
+                alert(msg==('1'))
+                if(msg==null){
+                    window.location.href=baseUrl+"login.html";
+                }else{
+                    window.location.href=baseUrl+"/html/cart.html";
+                }
+
+            },*/
+            delete1:function(index){
+                axios.get(baseUrl+"/count/delete/"+index)
+                    .then(response => {this.stateInfos = response.data})
             }
         },
         mounted(){
@@ -380,6 +397,18 @@ $(function(){
                 .then(response => {this.stateInfos = response.data})
         }
     });
+    function login() {
+        $.get(baseUrl+"/count/pay",
+            function (data) {
+                if (data=="1") {
+                    window.location.href=baseUrl+"/html/cart.html";
+                } else {
+                    alert("您还没有登陆");
+                    window.location.href=baseUrl+"/login.html";
+                }
+            });
+
+    }
 </script>
 </div></body>
 </html>

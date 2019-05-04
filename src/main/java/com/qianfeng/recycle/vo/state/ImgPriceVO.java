@@ -1,6 +1,8 @@
 package com.qianfeng.recycle.vo.state;
 
 public class ImgPriceVO {
+    private Integer cartId;
+    private Integer userId;
     private String img;
     private Integer price;
     private Integer equId;
@@ -12,12 +14,21 @@ public class ImgPriceVO {
     private String type;
     private Integer countPrice;
 
-    public Integer getCountPrice() {
-        return countPrice;
+
+    public Integer getCartId() {
+        return cartId;
     }
 
-    public void setCountPrice(Integer countPrice) {
-        this.countPrice = countPrice;
+    public void setCartId(Integer cartId) {
+        this.cartId = cartId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getImg() {
@@ -92,10 +103,20 @@ public class ImgPriceVO {
         this.type = type;
     }
 
+    public Integer getCountPrice() {
+        return countPrice;
+    }
+
+    public void setCountPrice(Integer countPrice) {
+        this.countPrice = countPrice;
+    }
+
     @Override
     public String toString() {
         return "ImgPriceVO{" +
-                "img='" + img + '\'' +
+                "cartId=" + cartId +
+                ", userId=" + userId +
+                ", img='" + img + '\'' +
                 ", price=" + price +
                 ", equId=" + equId +
                 ", rate=" + rate +

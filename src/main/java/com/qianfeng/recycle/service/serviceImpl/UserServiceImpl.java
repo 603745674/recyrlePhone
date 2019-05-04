@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
             throw new UsernameNotFoundException();
         }
         String md5password = MD5Utils.md5(password,"LL");
-        System.out.println(md5password);
+      /*  System.out.println(md5password);*/
         if(!md5password.equals(userInfo.getPassword())){
             throw new PasswordErrorException("password is error");
         }

@@ -110,7 +110,7 @@
             var name = $("#username").val();
             var pwd = $("#password").val();
             var remeber = $("#remeberMe").val();
-        $.post("http://localhost:8080/userlogin",
+        $.post("http://localhost:8080/recycle/userlogin",
             {
             username:name,
             password:pwd,
@@ -119,7 +119,7 @@
         },function(data){
             if (data.code == 1) {
                 //登录成功
-                window.location.href="http://localhost:8080/html/index.html";
+                window.location.href="http://localhost:8080/recycle/html/index.html";
             } else {
                 alert("登录失败："+data.msg);
             }

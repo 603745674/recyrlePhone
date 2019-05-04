@@ -161,13 +161,16 @@
             <!--全部手机品牌-->
             <div  class="search_main">
                 <div class="search_title"><h2 class="list-item">手机回收</h2>&nbsp;&nbsp;&nbsp;&nbsp;<em></em>搜索到<em>
-                    1852 </em>个结果
+                    <!--<template  v-for="equ in EquList">-->
+                    {{EquList.length}}
+                   <!-- </template>-->
+                </em>个结果
                 </div>
                 <dl id="Equ_list" class="pic_list">
                     <dd v-for="equ in EquList">
                         <div  class="pic_list_box">
                             <div  class="pic_list_img"><a :href="'info.html?A='+equ.equId" :title="equ.type+'回收价格评估'"><img
-                                    :src="'http://localhost8080/images/'+equ.img" width="180"
+                                    :src="'http://192.168.53.20/images/'+equ.img" width="180"
                                     height="135" :alt="equ.type+'回收价格评估'"/></a></div>
                             <p class="name">{{equ.type}}</p>
                             <!--<p class="price">回收价：<em>￥3080</em></p>-->
@@ -329,7 +332,7 @@
 <![endif]-->
 <script type="text/javascript">
     var brandId=null;
-    var baseUrl="http://localhost:8080";
+    var baseUrl="http://localhost:8080/recycle";
     new Vue({
         el:"#side_right",
         data:{

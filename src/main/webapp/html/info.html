@@ -43,7 +43,7 @@
         </div>
         <div class="heat_l">
             <div class="heat_img">
-                <img :src="'http://localhost8080/images/'+info.img" :alt="info.brandName+'回收价格评估'"
+                <img :src="'http://192.168.53.20/images/'+info.img" :alt="info.brandName+'回收价格评估'"
                      width="264" height="197"/>
             </div>
             <div class="heat_txt">
@@ -188,7 +188,7 @@
             <div id="step3_nav" class="property_nav">
                 <div id="btn_step3_back" class="btn_back">< 返回上一步</div>
                 <div id="btn_step3_next" class="btn_next"
-                     onclick="new_show_price('ajax/new_get_pg_price.html','show_price')">查看价格 >
+                     onclick="new_price()">查看价格 >
                 </div>
             </div>
         </div>
@@ -225,11 +225,11 @@
 </script>
 <![endif]-->
 <script type="text/javascript">
-    var baseUrl="http://localhost:8080";
+    var baseUrl="http://localhost:8080/recycle";
     function GetQueryString(name)
     {
         var reg = new RegExp("(^|&amp;)"+ name +"=([^&amp;]*)(&amp;|$)");
-        var r = window.location.search.substr(1).match(reg);//search,查询？后面的参数，并匹配正则
+        var r = window.location.search.substr(1).match(reg);
         if(r!=null)return unescape(r[2]); return null;
     }
     var a = GetQueryString("A");

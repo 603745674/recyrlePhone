@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianfeng.recycle.mapper.CartMapper">
+    <resultMap id="baseMap" type="com.qianfeng.recycle.po.TbCart">
+        <id property="cartId" column="cart_id" javaType="java.lang.Long"/>
+        <result property="userId" column="user_id" javaType="java.lang.Long"/>
+        <result property="stateInfoId" column="state_info_id" javaType="java.lang.Long"/>
+        <result property="breakPrice" column="break_price" javaType="java.lang.Long"/>
+        <result property="countPrice" column="count_price" javaType="java.lang.Long"/>
+    </resultMap>
+
+    <sql id="params">
+         cart_id,user_id,img,price,equ_id,rate,num,state_info_id, break_price,described,type,count_price
+    </sql>
+    <sql id="param">
+        cartId,userId,img,price,equId,rate,num,stateInfoId, breakPrice,described,type,countPrice
+    </sql>
+    <select id="selectCartsByUserId" resultMap="baseMap">
+        select <include refid="params"/> from tb_cart where user_id = #{userId}
+    </select>
+    <insert id="insertCartsByUserId">
+        insert into tb_cart <include refid="params"/> values <include refid="param"/>;
+    </insert>
+    <delete id="deleteCartsByUserId">
+        delete tb_cart where user_id = #{userId}
+    </delete>
+</mapper>

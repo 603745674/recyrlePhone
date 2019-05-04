@@ -160,12 +160,12 @@
         var passwordStr = $("#password").val();
         var userTokenStr = $("#userToken").val();
         var id		=	$(obj).attr("id");
-        $.post("http://localhost:8080/insertUser",
+        $.post("http://localhost:8080/recycle/insertUser",
                 {username:usernameStr,password:passwordStr
                 },function(data){
                 if (data.code == 1) {
                     //注册成功
-                    window.location.href="http://localhost:8080/login.html";
+                    window.location.href="http://localhost:8080/recycle/login.html";
                 } else {
                     alert("注册失败："+data.msg);
                 }
